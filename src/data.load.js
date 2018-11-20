@@ -1,4 +1,7 @@
-c3_chart_internal_fn.load = function (targets, args) {
+import CLASS from './class';
+import { ChartInternal } from './core';
+
+ChartInternal.prototype.load = function (targets, args) {
     var $$ = this;
     if (targets) {
         // filter loading targets if needed
@@ -33,13 +36,13 @@ c3_chart_internal_fn.load = function (targets, args) {
 
     if (args.done) { args.done(); }
 };
-c3_chart_internal_fn.loadFromArgs = function (args) {
+ChartInternal.prototype.loadFromArgs = function (args) {
     var $$ = this;
     if (args.data) {
         $$.load($$.convertDataToTargets(args.data), args);
     }
     else if (args.url) {
-        $$.convertUrlToData(args.url, args.mimeType, args.keys, function (data) {
+        $$.convertUrlToData(args.url, args.mimeType, args.headers, args.keys, function (data) {
             $$.load($$.convertDataToTargets(data), args);
         });
     }
@@ -56,7 +59,7 @@ c3_chart_internal_fn.loadFromArgs = function (args) {
         $$.load(null, args);
     }
 };
-c3_chart_internal_fn.unload = function (targetIds, done) {
+ChartInternal.prototype.unload = function (targetIds, done) {
     var $$ = this;
     if (!done) {
         done = function () {};
